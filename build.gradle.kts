@@ -16,7 +16,7 @@ buildscript {
 }
 
 plugins {
-    alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.maven.publish) apply true
     alias(libs.plugins.buildConfig) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.binaryCompatability)
@@ -70,6 +70,19 @@ subprojects {
     afterEvaluate {
         tasks.named("check") {
             dependsOn(tasks.getByName("ktlintCheck"))
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            name = "kmm-maven-releases"
+            url = uri("http://ai:8090/repository/kmm-maven-releases")
+            isAllowInsecureProtocol = true
+            credentials {
+                username = properties.get("ossrhUsername").toString()
+                password = properties.get("ossrhPassword").toString()
+            }
         }
     }
 }

@@ -73,3 +73,16 @@ kotlin {
         }
     }
 }
+publishing {
+    repositories {
+        maven {
+            name = properties.get("NEXUS_REPOSITORY_NAME").toString()
+            url = uri( properties.get("NEXUS_REPOSITORY_URL").toString())
+            isAllowInsecureProtocol = true
+            credentials {
+                username = properties.get("NEXUS_USERNAME").toString()
+                password = properties.get("NEXUS_PASSWORD").toString()
+            }
+        }
+    }
+}
